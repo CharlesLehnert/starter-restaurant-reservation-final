@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import ReservationRender from "../dashboard/Search";
+import ReservationRender from "../dashboard/ReservationRender";
 import ErrorAlert from "../layout/ErrorAlert";
 import { listReservations } from "../utils/api";
 
