@@ -111,7 +111,11 @@ export async function updateTable(table_id, reservation_id) {
     reservation_id
   );
 }
-
+export async function editReservation(reservation, reservation_id, signal){
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
+  const body = JSON.stringify({ data: reservation });
+  return await fetchJson(url, {headers, signal, method: "PUT", body}, []);
+}
 export async function readReservation(id) {
   const { data } = await axios.get(`${API_BASE_URL}/reservations/${id}`);
   return data.data;
