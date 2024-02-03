@@ -1,14 +1,10 @@
+// Your existing imports...
 const reservationsService = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 const e = require("express");
 
-//
-/**
- * List handler for reservation resources
- */
-
-//VALIDATION MIDDLEWARE
+// VALIDATION MIDDLEWARE
 
 async function reservationExists(req, res, next) {
   const reservation = await reservationsService.read(req.params.reservationId);
@@ -59,7 +55,7 @@ const hasRequiredProperties = hasProperties(
 
 function peopleIsNumber(req, res, next) {
   const { data = {} } = req.body;
-  const { people } = data;
+  const { people, mobile_number } = data;
 
   if (typeof people !== "number") {
     return next({
@@ -67,6 +63,15 @@ function peopleIsNumber(req, res, next) {
       message: "Invalid field: people is not a number.",
     });
   }
+
+  // Check if mobile_number is a valid number (you might need to adjust the condition)
+  if (isNaN(mobile_number)) {
+    return next({
+      status: 400,
+      message: "Invalid field: mobile_number should be a number.",
+    });
+  }
+
   next();
 }
 
@@ -193,7 +198,7 @@ function statusValidator(req, res, next) {
   next();
 }
 
-//CRUD OPERATIONS//
+// CRUD OPERATIONS
 
 function read(req, res, next) {
   const { reservation: data } = res.locals;
