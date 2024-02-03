@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
-import ReservationsNew from "../reservations/ReservationsNew";
+import ReservationsNew from "../reservations/NewReservation";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
 import TablesForm from "../tables/TablesForm";
 import { listReservations, listTables } from "../utils/api";
-import SeatReservation from "../reservations/SeatReservation";
+import SeatReservation from "../reservations/ReservationForm.js";
 import Search from "../search/Search";
 
 /**

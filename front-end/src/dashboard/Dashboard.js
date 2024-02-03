@@ -1,7 +1,7 @@
 import React from "react";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationRender from "./ReservationRender";
-import TableRender from "./TableRender";
+import TableRender from "./Seating";
 import { useHistory } from "react-router-dom";
 /**
  * Defines the dashboard page.

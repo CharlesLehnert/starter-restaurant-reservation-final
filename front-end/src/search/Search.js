@@ -1,77 +1,61 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import ReservationRender from "../dashboard/ReservationRender";
-import ErrorAlert from "../layout/ErrorAlert";
+import { useState } from "react";
 import { listReservations } from "../utils/api";
+import ErrorAlert from "../Errors/ErrorAlert";
+import Reservation from "../reservations/Reservation";
 
-export default function Search({ }) {
+export default function FindByNumber() {
+  const [mobile_number, setMobileNumber] = useState("");
+  const [reservations, setReservations] = useState([]);
+  const [reservationsError, setReservationsError] = useState(null);
 
-    const [phone, setPhone] = useState("");
-    const [reservations, setReservations] = useState([]);
-    const [error, setError] = useState(null);
+  const reservationsContent = reservations.map((reservation, index) => {
+    return <Reservation reservation={reservation} key={index} />;
+  });
 
+  const handleChange = (e) => setMobileNumber(e.target.value);
 
-//FORM HANDLERS
-    function handleChange({target}){
-        setPhone(target.value);
-    }
+  const handleSearch = (e) => {
+    e.preventDefault();
 
-    function handleSubmit(event){
-        event.preventDefault();
-        const abortController = new AbortController();
-        setError(null);
+    const abortController = new AbortController();
 
-        listReservations({mobile_number: phone}, abortController.signal)
-        .then(setReservations)
-        .catch(setError)
-
-        return () => abortController.abort();
-    }
-
-//Lists Reservations matching number
-
-    const searchResultsRender = () => {
-        return reservations.length === 0 ? (<tr><td>No reservations found</td></tr>) : (
-            reservations.map((reservation) => (
-                <ReservationRender key={reservation.reservation_id} reservation={reservation}/>
-            ))
-        )
-    }
+    listReservations({ mobile_number }, abortController.signal)
+      .then(setReservations)
+      .then(() =>
+        reservationsContent.length === 0
+          ? setReservationsError({ message: "No reservations found" })
+          : setReservationsError(null)
+      )
+      .catch(setReservationsError);
+  };
 
   return (
     <>
-      <h2>Search for Reservation</h2>
-      <ErrorAlert error={error} />
-      <div>
-        <label>Phone Number:</label>
-        <input name="mobile_number" 
-               type="tel" 
-               id="mobile_number"
-               onChange={handleChange}
-               placeholder="Enter a customer's phone number"
-               required/>
-        <button name="find" type="submit" onClick={handleSubmit}>Find</button>
-      </div>
-      <div>
-      <table className="table table-hover mt-4">
-        <thead className="thead-dark">
-          <tr className="text-center">
-            <th scope="col">ID</th>
-            <th scope="col text-center">First Name</th>
-            <th scope="col text-center">Last Name</th>
-            <th scope="col text-center">Mobile Number</th>
-            <th scope="col">Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">People</th>
-            <th scope="col">Status</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Cancel</th>
-            <th scope="col">Seat</th>
-          </tr>
-        </thead>
-
-        <tbody>{searchResultsRender()}</tbody>
-      </table>          
+      <h2 className="text-center pb-2">Search for Reservation</h2>
+      <div className="d-flex flex-column align-items-center">
+        <form onSubmit={handleSearch} className="mt-3 w-50 text-center">
+          <div className="form-group">
+            <input
+              name="mobile_number"
+              placeholder="Enter a customer's phone number"
+              onChange={handleChange}
+              className="form-control"
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-light mb-5">
+            Find
+          </button>
+        </form>
+        {reservationsContent.length !== 0 ? <h3>Reservations</h3> : ""}
+        {reservationsContent.length === 0 ? (
+          <ErrorAlert error={reservationsError} />
+        ) : (
+          ""
+        )}
+        <div className="d-flex justify-content-center flex-wrap mb-5">
+          {reservationsContent}
+        </div>
       </div>
     </>
   );
