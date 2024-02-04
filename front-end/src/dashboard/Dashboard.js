@@ -4,7 +4,7 @@ import ErrorAlert from "../Errors/ErrorAlert";
 import { today, next, previous, formatDate } from "../utils/date-time";
 import Reservation from "../reservations/Reservation";
 // Update the import statement
-import Tables from "../tables/Tables";
+import Tables from "../Tables/Tables";
 
 import useQuery from "../utils/useQuery";
 
