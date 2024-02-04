@@ -36,7 +36,7 @@ function Routes() {
         <Dashboard date={today()} />
       </Route>
       <Route path="/tables/new">
-        <TablesForm />
+        <TableForm />
       </Route>
       <Route path="/reservations/:reservation_id/seat">
         <Seating />
