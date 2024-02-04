@@ -5,7 +5,9 @@ import NotFound from "../Errors/NotFound";
 import ReservationForm from "../reservations/ReservationForm";
 
 // Update the import statement
-import TablesForm from "../tables/TableForm";
+// Update the import statement
+import TableForm from "../tables/TableForm";
+
 
 import Seating from "../dashboard/Seating";
 import Search from "../dashboard/Search"; 
